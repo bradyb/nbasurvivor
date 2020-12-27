@@ -75,30 +75,58 @@ class Week():
         start_of_next_week = self.week_start + timedelta(days=7)
         return start_of_next_week
 
-def find_best_remaining_plan(weeks, week_index, available_teams, current_plan, current_record):
-    if len(available_teams) == 0:
-        return Plan(current_plan, current_record)
-    if week_index == len(weeks):
-        return Plan(current_plan, current_record)
+def create_plan_hash(plan):
+    return ','.join(sorted(plan))
+
+plan_memo = {}
+
+def find_best_remaining_plan_helper(weeks, week_index, team, available_teams):
+    if len(available_teams) == 1:
+        wins_this_week, games_this_week = weeks[week_index].get_team_stats(team)
+        return Plan([team], Record(wins_this_week, games_this_week))
     week = weeks[week_index]
     teams_playing_this_week = week.get_teams_playing_this_week()
     options_for_remaining_weeks = []
-    for team in available_teams:
-        if team not in teams_playing_this_week:
-            continue
-        remaining_teams = available_teams.copy()
-        remaining_teams.remove(team)
-        wins, games = week.get_team_stats(team)
-        new_record = Record(current_record.wins + wins, current_record.games + games)
-        options_for_remaining_weeks.append(
-            find_best_remaining_plan(weeks, week_index + 1, remaining_teams, current_plan + [team], new_record))
-    best_plan = options_for_remaining_weeks[0]
-    best_record = best_plan.record.wins / best_plan.record.games
-    for option in options_for_remaining_weeks:
+    print(team, available_teams)
+    remaining_teams = available_teams.copy()
+    remaining_teams.remove(team)        
+    team_wins, team_games_played = week.get_team_stats(team)
+
+    plan_hash = create_plan_hash(remaining_teams)
+    if plan_hash in plan_memo:
+        best_plan = plan_memo[plan_hash]
+    else:
+        for next_team in remaining_teams:
+            if next_team not in teams_playing_this_week:
+                continue
+            options_for_remaining_weeks.append(
+                find_best_remaining_plan_helper(weeks, week_index + 1, next_team, remaining_teams))
+
+        best_plan = options_for_remaining_weeks[0]
+        best_record = (best_plan.record.wins + team_wins) / (best_plan.record.games + team_games_played)
+        for option in options_for_remaining_weeks:
+            record = option.record
+            temp_record = (record.wins + team_wins) / (record.games + team_games_played)
+            if temp_record > best_record:
+                best_plan = option
+                best_record = temp_record
+        plan_memo[plan_hash] =  best_plan
+
+    return Plan([team] + best_plan.plan, Record(team_wins + best_plan.record.wins, team_games_played + best_plan.record.games))
+
+def find_best_remaining_plan(weeks, start_week_index):
+    options = []
+    for team in AVAILABLE_TEAMS:
+        options.append(find_best_remaining_plan_helper(weeks, 0, team, AVAILABLE_TEAMS))
+    
+    best_plan = options[0]
+    best_record = (best_plan.record.wins) / (best_plan.record.games)
+    for option in options:
         record = option.record
-        if record.wins / record.games > best_record:
+        temp_record = (record.wins) / (record.games)
+        if temp_record > best_record:
             best_plan = option
-            best_record = record.wins / record.games
+            best_record = temp_record
     return best_plan
 
 games = open('nba_predictions_2020_12_21.csv', newline='')
@@ -116,6 +144,6 @@ for game_line in game_reader:
         last_week = current_week
 weeks.append(last_week)
 
-best_plan = find_best_remaining_plan(weeks, 0, AVAILABLE_TEAMS, [], Record(0.0, 0))
+best_plan = find_best_remaining_plan(weeks, 0)
 print(best_plan.plan)
 print(best_plan.record.wins, best_plan.record.games)
