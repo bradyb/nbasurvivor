@@ -84,10 +84,11 @@ def find_best_remaining_plan_helper(weeks, week_index, team, available_teams):
     if len(available_teams) == 1:
         wins_this_week, games_this_week = weeks[week_index].get_team_stats(team)
         return Plan([team], Record(wins_this_week, games_this_week))
+    if week_index == len(weeks):
+        return Plan([], Record(0.0, 0))
     week = weeks[week_index]
     teams_playing_this_week = week.get_teams_playing_this_week()
     options_for_remaining_weeks = []
-    print(team, available_teams)
     remaining_teams = available_teams.copy()
     remaining_teams.remove(team)        
     team_wins, team_games_played = week.get_team_stats(team)
