@@ -130,9 +130,9 @@ def find_best_remaining_plan(weeks, start_week_index):
             best_record = temp_record
     return best_plan
 
-games = open('nba_predictions_2020_12_21.csv', newline='')
+games = open('nba_predictions_2020_12_28.csv', newline='')
 game_reader = csv.reader(games)
-current_week = Week(datetime.strptime('2020-12-21', '%Y-%m-%d'))
+current_week = Week(datetime.strptime('2020-12-28', '%Y-%m-%d'))
 weeks = []
 last_week = None
 for game_line in game_reader:

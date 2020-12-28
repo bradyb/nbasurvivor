@@ -1,0 +1,2 @@
+['IND', 'ATL', 'TOR', 'LAC', 'HOU', 'MIA', 'DAL', 'MEM', 'DEN', 'POR']
+24.722538515170854 35
