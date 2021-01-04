@@ -1,2 +1,9 @@
-['IND', 'ATL', 'TOR', 'LAC', 'HOU', 'MIA', 'DAL', 'MEM', 'DEN', 'POR']
-24.722538515170854 35
+Week 2:
+
+    Teams: ['IND', 'ATL', 'TOR', 'LAC', 'HOU', 'MIA', 'DAL', 'MEM', 'DEN', 'POR']
+    Projected Record: 24.722538515170854 35
+
+Week 3:
+    
+    Teams: ['DEN', 'TOR', 'LAC', 'HOU', 'MIA', 'DAL', 'ORL', 'PHO', 'POR']
+    Projected Record: 25.867985824324272 37
