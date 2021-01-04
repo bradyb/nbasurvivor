@@ -1,6 +1,7 @@
 import csv
 from datetime import datetime
 from datetime import timedelta
+import operator
 
 DATE_INDEX = 0
 TEAM_1_INDEX = 4
@@ -74,6 +75,18 @@ class Week():
     def get_start_of_next_week(self):
         start_of_next_week = self.week_start + timedelta(days=7)
         return start_of_next_week
+
+    def get_all_team_stats(self):
+        scores_by_team = {}
+        teams_playing_this_week = self.get_teams_playing_this_week()
+
+        for team in teams_playing_this_week:
+            scores_by_team[team] = self.get_team_stats(team)
+
+        return scores_by_team
+
+    def get_best_team_of_week(self):        
+        return max(self.get_all_team_stats().items(), key=operator.itemgetter(1))
 
 def create_plan_hash(plan):
     return ','.join(sorted(plan))
