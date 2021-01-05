@@ -128,7 +128,7 @@ def find_best_remaining_plan_helper(weeks, week_index, team, available_teams):
 
     return Plan([team] + best_plan.plan, Record(team_wins + best_plan.record.wins, team_games_played + best_plan.record.games))
 
-def find_best_remaining_plan(weeks, start_week_index):
+def find_best_remaining_plan(weeks):
     options = []
     for team in AVAILABLE_TEAMS:
         options.append(find_best_remaining_plan_helper(weeks, 0, team, AVAILABLE_TEAMS))
@@ -143,21 +143,23 @@ def find_best_remaining_plan(weeks, start_week_index):
             best_record = temp_record
     return best_plan
 
-games = open('nba_predictions_2021_01_04.csv', newline='')
-game_reader = csv.reader(games)
-current_week = Week(datetime.strptime('2021-01-04', '%Y-%m-%d'))
-weeks = []
-last_week = None
-for game_line in game_reader:
-    game = Game(game_line[DATE_INDEX], game_line[TEAM_1_INDEX], game_line[TEAM_2_INDEX], game_line[TEAM_1_PROB], game_line[TEAM_2_PROB])
-    if game.date <= current_week.get_end_of_week():
-        current_week.add_game(game)
-    else:
-        weeks.append(current_week)
-        current_week = Week(current_week.get_start_of_next_week())
-        last_week = current_week
-weeks.append(last_week)
 
-best_plan = find_best_remaining_plan(weeks, 0)
-print(best_plan.plan)
-print(best_plan.record.wins, best_plan.record.games)
+if __name__ == "__main__":
+    games = open('nba_predictions_2021_01_04.csv', newline='')
+    game_reader = csv.reader(games)
+    current_week = Week(datetime.strptime('2021-01-04', '%Y-%m-%d'))
+    weeks = []
+    last_week = None
+    for game_line in game_reader:
+        game = Game(game_line[DATE_INDEX], game_line[TEAM_1_INDEX], game_line[TEAM_2_INDEX], game_line[TEAM_1_PROB], game_line[TEAM_2_PROB])
+        if game.date <= current_week.get_end_of_week():
+            current_week.add_game(game)
+        else:
+            weeks.append(current_week)
+            current_week = Week(current_week.get_start_of_next_week())
+            last_week = current_week
+    weeks.append(last_week)
+
+    best_plan = find_best_remaining_plan(weeks)
+    print(best_plan.plan)
+    print(best_plan.record.wins, best_plan.record.games)
