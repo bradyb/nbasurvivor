@@ -12,7 +12,7 @@ TEAM_1_PROB = 20
 TEAM_2_PROB = 21
 
 AVAILABLE_TEAMS = []
-with open('teams.txt', 'r') as available_teams_file:
+with open('teams/teams.txt', 'r') as available_teams_file:
     available_teams_file_lines = available_teams_file.readlines()
     AVAILABLE_TEAMS = [team.strip() for team in available_teams_file_lines]
 
