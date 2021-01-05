@@ -1,6 +1,13 @@
+import csv
 from datetime import datetime
 from datetime import timedelta
 import operator
+
+DATE_INDEX = 0
+TEAM_1_INDEX = 4
+TEAM_2_INDEX = 5
+TEAM_1_PROB = 20
+TEAM_2_PROB = 21
 
 class Record():
     def __init__(self, wins, games):
@@ -75,3 +82,21 @@ class Week():
 
     def get_best_team_of_week(self):        
         return max(self.get_all_team_stats().items(), key=operator.itemgetter(1))
+
+def load_weeks(file_name, start_week_date):    
+    games = open(file_name, newline='')
+    game_reader = csv.reader(games)
+    current_week = Week(datetime.strptime(start_week_date, '%Y-%m-%d'))
+    weeks = []
+    last_week = None
+    for game_line in game_reader:
+        game = Game(game_line[DATE_INDEX], game_line[TEAM_1_INDEX], game_line[TEAM_2_INDEX], game_line[TEAM_1_PROB], game_line[TEAM_2_PROB])
+        if game.date <= current_week.get_end_of_week():
+            current_week.add_game(game)
+        else:
+            weeks.append(current_week)
+            current_week = Week(current_week.get_start_of_next_week())
+            last_week = current_week
+    weeks.append(last_week)
+
+    return weeks

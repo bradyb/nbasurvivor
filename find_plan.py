@@ -1,20 +1,13 @@
 import csv
 from datetime import datetime
+import nba_schedule
 from nba_schedule import Week
 from nba_schedule import Game
 from nba_schedule import Record
 from nba_schedule import Plan
+import teams
 
-DATE_INDEX = 0
-TEAM_1_INDEX = 4
-TEAM_2_INDEX = 5
-TEAM_1_PROB = 20
-TEAM_2_PROB = 21
-
-AVAILABLE_TEAMS = []
-with open('teams/teams.txt', 'r') as available_teams_file:
-    available_teams_file_lines = available_teams_file.readlines()
-    AVAILABLE_TEAMS = [team.strip() for team in available_teams_file_lines]
+AVAILABLE_TEAMS = teams.get_available_teams('teams/teams.txt')
 
 def create_plan_hash(plan):
     return ','.join(sorted(plan))
@@ -73,21 +66,7 @@ def find_best_remaining_plan(weeks):
 
 
 if __name__ == "__main__":
-    games = open('data/nba_predictions_2021_01_04.csv', newline='')
-    game_reader = csv.reader(games)
-    current_week = Week(datetime.strptime('2021-01-04', '%Y-%m-%d'))
-    weeks = []
-    last_week = None
-    for game_line in game_reader:
-        game = Game(game_line[DATE_INDEX], game_line[TEAM_1_INDEX], game_line[TEAM_2_INDEX], game_line[TEAM_1_PROB], game_line[TEAM_2_PROB])
-        if game.date <= current_week.get_end_of_week():
-            current_week.add_game(game)
-        else:
-            weeks.append(current_week)
-            current_week = Week(current_week.get_start_of_next_week())
-            last_week = current_week
-    weeks.append(last_week)
-
+    weeks = nba_schedule.load_weeks('data/nba_predictions_2021_01_04.csv', '2021-01-04')
     best_plan = find_best_remaining_plan(weeks)
     print(best_plan.plan)
     print(best_plan.record.wins, best_plan.record.games)
