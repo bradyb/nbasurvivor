@@ -81,7 +81,7 @@ class Week():
         return scores_by_team
 
     def get_best_team_of_week(self):        
-        return max(self.get_all_team_stats().items(), key=operator.itemgetter(1))
+        return max(self.get_all_team_stats().items(), key=operator.itemgetter(1))[0]
 
 def load_weeks(file_name, start_week_date):    
     games = open(file_name, newline='')

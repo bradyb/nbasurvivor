@@ -1,5 +1,4 @@
 import csv
-from datetime import datetime
 import nba_schedule
 from nba_schedule import Week
 from nba_schedule import Game
