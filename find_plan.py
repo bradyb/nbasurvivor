@@ -65,7 +65,7 @@ def find_best_remaining_plan(weeks):
 
 
 if __name__ == "__main__":
-    weeks = nba_schedule.load_weeks('data/nba_predictions_2021_01_04.csv', '2021-01-04')
+    weeks = nba_schedule.load_weeks('data/nba_predictions_2021_01_11.csv', '2021-01-11')
     best_plan = find_best_remaining_plan(weeks)
     print(best_plan.plan)
     print(best_plan.record.wins, best_plan.record.games)

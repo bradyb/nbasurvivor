@@ -7,3 +7,8 @@ Week 3:
     
     Teams: ['ATL', 'PHO', 'LAC', 'HOU', 'MIA', 'DAL', 'ORL', 'DEN', 'POR']
     Projected Record: 21.285878831336895 29
+
+Week 4:
+
+    Teams: ['PHO', 'LAC', 'HOU', 'MIA', 'DAL', 'ORL', 'DEN', 'POR']
+    Projected Record: 19.915543447558612 27

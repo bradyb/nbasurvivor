@@ -1,7 +1,5 @@
 LAL
 BOS
-CHI
-NYK
 MIL
 WAS
 MIN
