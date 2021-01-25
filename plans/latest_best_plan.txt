@@ -12,3 +12,13 @@ Week 4:
 
     Teams: ['PHO', 'LAC', 'HOU', 'MIA', 'DAL', 'ORL', 'DEN', 'POR']
     Projected Record: 19.915543447558612 27
+
+Week 5:
+
+    Teams: ['LAC', 'BRK', 'MIA', 'DAL', 'ORL', 'DEN', 'POR']
+    Projected Record: 17.878989121888498 24
+
+Week 6:
+
+    Teams: ['BRK', 'MIA', 'DAL', 'ORL', 'DEN', 'POR']
+    Projected Record: 15.140335810711361 21
