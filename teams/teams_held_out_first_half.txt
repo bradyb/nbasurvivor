@@ -1,6 +1,4 @@
 LAL
 BOS
 MIL
-WAS
-MIN
-DET
+HOU
