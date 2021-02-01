@@ -1,3 +1,4 @@
+import argparse
 import csv
 import nba_schedule
 from nba_schedule import Week
@@ -65,7 +66,10 @@ def find_best_remaining_plan(weeks):
 
 
 if __name__ == "__main__":
-    weeks = nba_schedule.load_weeks('data/nba_predictions_2021_01_25.csv', '2021-01-25')
+    parser = argparse.ArgumentParser()
+    parser.add_argument("date", help="start of the current week, like YYYY-MM-DD.")
+    args = parser.parse_args()
+    weeks = nba_schedule.load_weeks('data/nba_predictions_' + args.date.replace('-', '_') + '.csv', args.date)
     best_plan = find_best_remaining_plan(weeks)
     print(best_plan.plan)
     print(best_plan.record.wins, best_plan.record.games)
