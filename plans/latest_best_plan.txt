@@ -22,3 +22,8 @@ Week 6:
 
     Teams: ['BRK', 'MIA', 'DAL', 'ORL', 'DEN', 'POR']
     Projected Record: 15.140335810711361 21
+
+Week 7:
+
+    Teams: ['MIA', 'UTA', 'DAL', 'DEN', 'POR']
+    Projected Record: 10.737040575485837 15
