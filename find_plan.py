@@ -25,7 +25,7 @@ def find_best_remaining_plan_helper(weeks, week_index, team, available_teams):
     options_for_remaining_weeks = []
     remaining_teams = available_teams.copy()
     remaining_teams.remove(team)        
-    team_wins, team_games_played = week.get_team_stats(team)
+    curr_team_record = week.get_team_record(team)
 
     plan_hash = create_plan_hash(remaining_teams)
     if plan_hash in plan_memo:
@@ -38,16 +38,16 @@ def find_best_remaining_plan_helper(weeks, week_index, team, available_teams):
                 find_best_remaining_plan_helper(weeks, week_index + 1, next_team, remaining_teams))
 
         best_plan = options_for_remaining_weeks[0]
-        best_record = (best_plan.record.wins + team_wins) / (best_plan.record.games + team_games_played)
+        best_record = (best_plan.record + curr_team_record).get_percentage()
         for option in options_for_remaining_weeks:
             record = option.record
-            temp_record = (record.wins + team_wins) / (record.games + team_games_played)
+            temp_record = (record + curr_team_record).get_percentage()
             if temp_record > best_record:
                 best_plan = option
                 best_record = temp_record
         plan_memo[plan_hash] =  best_plan
 
-    return Plan([team] + best_plan.plan, Record(team_wins + best_plan.record.wins, team_games_played + best_plan.record.games))
+    return Plan([team] + best_plan.plan, best_plan.record + curr_team_record)
 
 def find_best_remaining_plan(weeks):
     options = []
@@ -55,10 +55,10 @@ def find_best_remaining_plan(weeks):
         options.append(find_best_remaining_plan_helper(weeks, 0, team, AVAILABLE_TEAMS))
     
     best_plan = options[0]
-    best_record = (best_plan.record.wins) / (best_plan.record.games)
+    best_record = best_plan.record.get_percentage()
     for option in options:
         record = option.record
-        temp_record = (record.wins) / (record.games)
+        temp_record = record.get_percentage()
         if temp_record > best_record:
             best_plan = option
             best_record = temp_record

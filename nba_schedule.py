@@ -13,12 +13,12 @@ class Record():
     def __init__(self, wins, games):
         self.wins = wins
         self.games = games
-    
-    def add_wins(self, wins):
-        self.wins += wins
 
-    def add_games(self, games):
-        self.games += games
+    def __add__(self, other):
+        return Record(self.wins + other.wins, self.games + other.games)
+
+    def get_percentage(self):
+        return self.wins / float(self.games)
 
 class Plan():
     def __init__(self, plan, record):
@@ -53,6 +53,10 @@ class Week():
                 week_score += game.team_2_prob
                 games_played+=1
         return week_score, games_played
+
+    def get_team_record(self, team):
+        wins, games = self.get_team_stats(team)
+        return Record(wins, games)
 
     def get_teams_playing_this_week(self):
         teams_playing_this_week = []
