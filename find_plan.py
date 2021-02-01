@@ -14,12 +14,12 @@ def create_plan_hash(plan):
 
 plan_memo = {}
 
-def find_best_remaining_plan_helper(weeks, week_index, team, available_teams):
+def find_best_remaining_plan_helper(weeks, week_index, team, available_teams, record_so_far):
     if len(available_teams) == 1:
         wins_this_week, games_this_week = weeks[week_index].get_team_stats(team)
-        return Plan([team], Record(wins_this_week, games_this_week))
+        return Plan([team], Record(wins_this_week, games_this_week) + record_so_far)
     if week_index == len(weeks):
-        return Plan([], Record(0.0, 0))
+        return Plan([], record_so_far)
     week = weeks[week_index]
     teams_playing_this_week = week.get_teams_playing_this_week()
     options_for_remaining_weeks = []
@@ -35,7 +35,7 @@ def find_best_remaining_plan_helper(weeks, week_index, team, available_teams):
             if next_team not in teams_playing_this_week:
                 continue
             options_for_remaining_weeks.append(
-                find_best_remaining_plan_helper(weeks, week_index + 1, next_team, remaining_teams))
+                find_best_remaining_plan_helper(weeks, week_index + 1, next_team, remaining_teams, record_so_far))
 
         best_plan = options_for_remaining_weeks[0]
         best_record = (best_plan.record + curr_team_record).get_percentage()
@@ -49,10 +49,10 @@ def find_best_remaining_plan_helper(weeks, week_index, team, available_teams):
 
     return Plan([team] + best_plan.plan, best_plan.record + curr_team_record)
 
-def find_best_remaining_plan(weeks):
+def find_best_remaining_plan(weeks, record_so_far):
     options = []
     for team in AVAILABLE_TEAMS:
-        options.append(find_best_remaining_plan_helper(weeks, 0, team, AVAILABLE_TEAMS))
+        options.append(find_best_remaining_plan_helper(weeks, 0, team, AVAILABLE_TEAMS, record_so_far))
     
     best_plan = options[0]
     best_record = best_plan.record.get_percentage()
@@ -70,6 +70,7 @@ if __name__ == "__main__":
     parser.add_argument("date", help="start of the current week, like YYYY-MM-DD.")
     args = parser.parse_args()
     weeks = nba_schedule.load_weeks('data/nba_predictions_' + args.date.replace('-', '_') + '.csv', args.date)
-    best_plan = find_best_remaining_plan(weeks)
+    record_so_far = Record(6, 13)
+    best_plan = find_best_remaining_plan(weeks, record_so_far)
     print(best_plan.plan)
     print(best_plan.record.wins, best_plan.record.games)
