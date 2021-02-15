@@ -27,3 +27,10 @@ Week 7:
 
     Teams: ['MIA', 'UTA', 'DAL', 'DEN', 'POR']
     Projected Record: 10.737040575485837 15
+
+Week 8: not run, picked the Mavs
+
+Week 9:
+
+    Teams: ['MEM', 'DEN', 'POR']
+    Projected Record: 20.931095984364408 35

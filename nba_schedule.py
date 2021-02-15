@@ -2,6 +2,7 @@ import csv
 from datetime import datetime
 from datetime import timedelta
 import operator
+import pprint
 
 DATE_INDEX = 0
 TEAM_1_INDEX = 4
@@ -86,6 +87,9 @@ class Week():
 
     def get_best_team_of_week(self):        
         return max(self.get_all_team_stats().items(), key=operator.itemgetter(1))[0]
+
+    def get_best_teams_this_week(self):
+        return pprint.pprint(sorted(self.get_all_team_stats().items(), key=lambda item: item[1], reverse=True))
 
 def load_weeks(file_name, start_week_date):    
     games = open(file_name, newline='')
