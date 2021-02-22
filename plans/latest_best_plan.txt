@@ -34,3 +34,8 @@ Week 9:
 
     Teams: ['MEM', 'DEN', 'POR']
     Projected Record: 20.931095984364408 35
+
+Week 10: 
+
+    Teams: ['DEN', 'POR']
+    Projected Record: 20.46625292000769 35

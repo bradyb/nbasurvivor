@@ -70,7 +70,7 @@ if __name__ == "__main__":
     parser.add_argument("date", help="start of the current week, like YYYY-MM-DD.")
     args = parser.parse_args()
     weeks = nba_schedule.load_weeks('data/nba_predictions_' + args.date.replace('-', '_') + '.csv', args.date)
-    record_so_far = Record(14, 25)
+    record_so_far = Record(16, 29)
     best_plan = find_best_remaining_plan(weeks, record_so_far)
     print(best_plan.plan)
     print(best_plan.record.wins, best_plan.record.games)
