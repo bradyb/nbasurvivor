@@ -39,3 +39,10 @@ Week 10:
 
     Teams: ['DEN', 'POR']
     Projected Record: 20.46625292000769 35
+
+Week 11:
+    Picked Portland
+
+Week 12:
+    Teams: ['MIL', 'MIN', 'SAS', 'GSW', 'TOR', 'SAC', 'BOS', 'UTA', 'LAL']
+    Projected Record: 45.60215618181376 73
