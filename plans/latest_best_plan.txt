@@ -46,3 +46,7 @@ Week 11:
 Week 12:
     Teams: ['MIL', 'MIN', 'SAS', 'GSW', 'TOR', 'SAC', 'BOS', 'UTA', 'LAL']
     Projected Record: 45.60215618181376 73
+
+Week 13:
+    Teams: ['MIN', 'SAS', 'GSW', 'TOR', 'SAC', 'BOS', 'UTA', 'LAL']
+    Projected Record: 46.2711081578135 73
